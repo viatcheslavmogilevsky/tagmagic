@@ -1,50 +1,47 @@
 package main
 
 import (
-    "bufio"
-    "fmt"
+	"bufio"
+	"fmt"
 	"os"
+
 	"github.com/inancgumus/screen"
+	"github.com/olekukonko/tablewriter"
 )
 
+func getTable() *tablewriter.Table {
+	data := [][]string{
+		[]string{"A", "The Good", "500"},
+		[]string{"B", "The Very very Bad Man", "288"},
+		[]string{"C", "The Ugly", "120"},
+		[]string{"D", "The Gopher", "800"},
+	}
+
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string{"Name", "Sign", "Rating"})
+
+	for _, v := range data {
+		table.Append(v)
+	}
+
+	return table
+}
 
 func main() {
-	// tm.Clear()
-	// tm.MoveCursor(0, 0)
+	scanner := bufio.NewScanner(os.Stdin)
 
-	// chart := tm.NewLineChart(100, 20)
-	// data := new(tm.DataTable)
-	// data.AddColumn("Time")
-	// data.AddColumn("Sin(x)")
-	// data.AddColumn("Cos(x+1)")
-
-	// for i := 0.1; i < 10; i += 0.1 {
-	// 	data.AddRow(i, math.Sin(i), math.Cos(i+1))
-	// }
-
-	// tm.Println(chart.Draw(data))
-	// tm.Flush()
-
-    // To create dynamic array
-    // arr := make([]string, 0)
-    scanner := bufio.NewScanner(os.Stdin)
-    for {
-        fmt.Print("Enter Text: ")
-        // Scans a line from Stdin(Console)
+	for {
+		fmt.Print("Enter Text: ")
 		scanner.Scan()
-        // Holds the string that scanned
-        text := scanner.Text()
-        if text != "q" {
+		text := scanner.Text()
+		if text != "q" {
 			screen.Clear()
 			screen.MoveTopLeft()
-            fmt.Println(text)
-            // arr = append(arr, text)
-        } else {
+			fmt.Println(text)
+			getTable().Render()
+		} else {
 			fmt.Println("Exiting!")
-            break
-        }
-
-    }
-    // Use collected inputs
-    // fmt.Println(arr)
+			break
+		}
+	}
 }
